@@ -28,10 +28,6 @@ Chris Evans
 A measure of Success:
 Revenue - budget = Gross revenue
 
-```{r}
-
-```
-
 Conclusion
  
 
