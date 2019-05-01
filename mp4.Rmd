@@ -4,5 +4,42 @@ author: "Cassie Naranjo and Amelia Stapleton"
 date: "4/30/2019"
 output: html_document
 ---
- nothing is working 
- agaun 
+```{r message = FALSE, warning = FALSE, echo = FALSE}
+library(RMySQL)
+library(tidyverse)
+db <- dbConnect(MySQL(), 
+                host = "scidb.smith.edu", 
+                user = "mth292", 
+                password = "RememberPi", 
+                dbname = "imdb")
+knitr::opts_chunk$set(connection = db, max.print = 20)
+```
+Rob Down Jr id = 636699
+```{sql eval = FALSE}
+select name.name, name.id
+from name
+join cast_info
+on name.id = cast_info.person_id
+where name = 'Downey Jr., Robert'; 
+```
+Rob Down Jr id = 636699
+
+how we found avengers movie_id 
+```{sql}
+select person_id, movie_id, title.title
+from cast_info
+join title 
+on cast_info.movie_id = title.id
+where person_id = '636699' and title.title like '%Avengers%';
+```
+The Avengers 
+```{sql}
+select title, title.production_year, count(cast_info.person_id) as cast, name.gender 
+from  title 
+join cast_info 
+on title.id = cast_info.movie_id
+join name 
+on cast_info.person_id = name.id 
+where cast_info.movie_id = '4316706' and name.gender IS NOT NULL
+group by name.gender;
+```
