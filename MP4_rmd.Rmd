@@ -1,0 +1,34 @@
+---
+title: "Mini Project 4"
+author: "Amelia Stapleton and Cassie Naranjo"
+date: "4/30/2019"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+*8:00 PM 30 April 2019*
+**Did the Marvel franchise make these actors more famous? A look into the actors that played Black Widow, Hulk, and Captain America**
+
+Scarlett Johannsson
+- Match point (2005)
+- Iron man 2 (2010) -- Black Widow
+- Lucy (2014)
+
+Mark Ruffalo
+- 13 going on 30 (2004)
+- The avengers (2012) -- Hulk
+- Infinitely polar bear (2014)
+
+Chris Evans
+- Gifted (2017)
+- Captain America (2014)
+- Snow piercer (2013)
+
+A measure of Success:
+Revenue - budget = Gross revenue
+
+Conclusion
+ 
+
+
