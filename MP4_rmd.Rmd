@@ -10,6 +10,11 @@ output:
 *8:00 PM 30 April 2019*
 **Did the Marvel franchise make these actors more famous? A look into the actors that played Black Widow, Hulk, and Captain America**
 
+<<<<<<< HEAD
+=======
+I Hate Github
+
+>>>>>>> 877725d054cc1da4eff520804e14f00bc2134d64
 Scarlett Johannsson
 - Match point (2005)
 - Iron man 2 (2010) -- Black Widow
