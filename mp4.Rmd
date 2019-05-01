@@ -1,6 +1,55 @@
 ---
-title: "MP4"
-author: "Cassie Naranjo and Amelia Stapleton"
+title: "Mini Project 4"
+author: "Amelia Stapleton and Cassie Naranjo"
 date: "4/30/2019"
-output: html_document
+output: 
+  html_document:
+    code_folding: hide
 ---
+
+```{r, include = FALSE, echo = FALSE}
+library(tidyverse)
+library(RMySQL)
+db <- dbConnect(MySQL(), 
+                host = "scidb.smith.edu", 
+                user = "mth292", 
+                password = "RememberPi", 
+                dbname = "imdb")
+knitr::opts_chunk$set(connection = db, max.print = 20)
+```
+
+#age of ultron
+```{sql}
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
+group by name.gender; 
+```
+
+#avengers
+```{sql} 
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '4316706'and name.gender IS NOT NULL
+group by name.gender; 
+```
+
+#infinty war
+```{sql} 
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
+group by name.gender; 
+```
