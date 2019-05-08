@@ -10,24 +10,13 @@ output:
 ```{r, include = FALSE, echo = FALSE}
 library(tidyverse)
 library(RMySQL)
+library(ggthemes)
 db <- dbConnect(MySQL(), 
                 host = "scidb.smith.edu", 
                 user = "mth292", 
                 password = "RememberPi", 
                 dbname = "imdb")
 knitr::opts_chunk$set(connection = db, max.print = 20)
-```
-
-#age of ultron female
-```{sql, output.var = "age_of_ultron"}
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
-from title
-join cast_info
-on title.id = cast_info.movie_id
-join name
-on cast_info.person_id = name.id
-where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
-group by name.gender; 
 ```
 
 #avengers
@@ -38,10 +27,20 @@ join cast_info
 on title.id = cast_info.movie_id
 join name
 on cast_info.person_id = name.id
-where cast_info.movie_id like '4316706'and name.gender IS NOT NULL
+where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
 group by name.gender; 
 ```
 
+```{sql}
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/296)*100 as ratio
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
+group by name.gender;
+```
 
 #infinty war
 ```{sql, connection = db, output.var = "infinity_war"} 
@@ -65,7 +64,24 @@ on cast_info.person_id = name.id
 where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
 group by name.gender; 
 ```
+  
+```{r}
+ggplot(data = avengers, aes(x = gender, y = ratio)) +
+  geom_bar(stat = "identity", aes(fill = gender)) +
+  labs(title = "The Avengers", subtitle = "Production Year: 2012", y = "Ratio of Total Actors", x = "Gender")
+```
+ 
+```{r}
+ggplot((data = infinity_war, aes(x = gender, y = ratio)) +
+  geom_bar(stat = "identity", aes(fill = gender)) +
+  labs(title = "Avengers: Infinity War", subtitle = "Production Year: 2018", y = "Ratio of Total Actors", x = "Gender"))
+```
 
+```{r}
+ggplot((data = infinity_war, aes(x = gender, y = ratio)) +
+  geom_bar(stat = "identity", aes(fill = gender)) +
+  labs(title = "Avengers: Age of Ultron War", subtitle = "Production Year: 2015", y = "Ratio of Total Actors", x = "Gender"))
+```
 
  revenue 
  movie info 
