@@ -64,25 +64,30 @@ on cast_info.person_id = name.id
 where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
 group by name.gender; 
 ```
-  
+
+#Avengers ggplot
 ```{r}
 ggplot(data = avengers, aes(x = gender, y = ratio)) +
   geom_bar(stat = "identity", aes(fill = gender)) +
   labs(title = "The Avengers", subtitle = "Production Year: 2012", y = "Ratio of Total Actors", x = "Gender")
 ```
- 
+
+#Infinity War ggplot
 ```{r}
 ggplot((data = infinity_war, aes(x = gender, y = ratio)) +
   geom_bar(stat = "identity", aes(fill = gender)) +
   labs(title = "Avengers: Infinity War", subtitle = "Production Year: 2018", y = "Ratio of Total Actors", x = "Gender"))
 ```
 
+#Age of ultron ggplot
 ```{r}
-ggplot((data = infinity_war, aes(x = gender, y = ratio)) +
+ggplot((data = age_of_ultron, aes(x = gender, y = ratio)) +
   geom_bar(stat = "identity", aes(fill = gender)) +
   labs(title = "Avengers: Age of Ultron War", subtitle = "Production Year: 2015", y = "Ratio of Total Actors", x = "Gender"))
 ```
 
+
+Notes:
  revenue 
  movie info 
  kind info type = 107 
