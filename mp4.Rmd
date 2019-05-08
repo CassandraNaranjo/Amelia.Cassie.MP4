@@ -19,7 +19,7 @@ knitr::opts_chunk$set(connection = db, max.print = 20)
 ```
 #avengers
 ```{sql, connection = db, output.var = "avengers"} 
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender, ((count(cast_info.person_id))/296)*100 as ratio
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/296)*100 as ratio
 from title
 join cast_info
 on title.id = cast_info.movie_id
@@ -43,7 +43,7 @@ group by name.gender;
 
 #infinty war
 ```{sql, connection = db, output.var = "infinity_war"} 
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender, ((count(cast_info.person_id))/115)*100 as ratio
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as Num, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
 from title
 join cast_info
 on title.id = cast_info.movie_id
@@ -52,11 +52,14 @@ on cast_info.person_id = name.id
 where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
 group by name.gender; 
 ```
- 
+
+  
 ```{r}
-ggplot(data = avengers, aes(x = gender, fill = ratio)) + 
-  geom_bar()
+ggplot(data = avengers, aes(x = gender, y = ratio)) +
+  geom_bar(stat = "identity", aes(fill = ratio))
 ```
+
+ 
  
  revenue 
  movie info 
