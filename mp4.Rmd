@@ -9,6 +9,9 @@ output:
 
 ```{r, include = FALSE, echo = FALSE}
 library(tidyverse)
+library(ggplot2)
+library(ggthemes)
+library(RColorBrewer)
 library(RMySQL)
 db <- dbConnect(MySQL(), 
                 host = "scidb.smith.edu", 
@@ -31,7 +34,7 @@ group by name.gender;
 
 #age of ultron
 ```{sql, connection = db, output.var = "age_of_ultron"}
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender, ((count(cast_info.person_id))/290)*100 as ratio
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/290)*100 as ratio
 from title
 join cast_info
 on title.id = cast_info.movie_id
@@ -43,7 +46,7 @@ group by name.gender;
 
 #infinty war
 ```{sql, connection = db, output.var = "infinity_war"} 
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as Num, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
 from title
 join cast_info
 on title.id = cast_info.movie_id
@@ -59,7 +62,8 @@ ggplot(data = avengers, aes(x = gender, y = ratio)) +
   geom_bar(stat = "identity", aes(fill = ratio))
 ```
 
- 
+Red color: #e31a1c
+blue color: #0c2c84
  
  revenue 
  movie info 
