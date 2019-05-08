@@ -17,22 +17,9 @@ db <- dbConnect(MySQL(),
                 dbname = "imdb")
 knitr::opts_chunk$set(connection = db, max.print = 20)
 ```
-
-#age of ultron
-```{sql}
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
-from title
-join cast_info
-on title.id = cast_info.movie_id
-join name
-on cast_info.person_id = name.id
-where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
-group by name.gender; 
-```
-
 #avengers
-```{sql} 
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
+```{sql, connection = db, output.var = "avengers"} 
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender, ((count(cast_info.person_id))/296)*100 as ratio
 from title
 join cast_info
 on title.id = cast_info.movie_id
@@ -42,8 +29,20 @@ where cast_info.movie_id like '4316706'and name.gender IS NOT NULL
 group by name.gender; 
 ```
 
+#age of ultron
+```{sql, connection = db, output.var = "age_of_ultron"}
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender, ((count(cast_info.person_id))/290)*100 as ratio
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
+group by name.gender; 
+```
+
 #infinty war
-```{sql} 
+```{sql, connection = db, output.var = "infinity_war"} 
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender, ((count(cast_info.person_id))/115)*100 as ratio
 from title
 join cast_info
@@ -54,12 +53,23 @@ where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
 group by name.gender; 
 ```
  
-find ratios 
-
-```{sql eval = FALSE}
-select person_id, movie_id, title.title
-from cast_info
-join title 
-on cast_info.movie_id = title.id
-where person_id = '636699' and title.title like '%Avengers%';
+```{r}
+ggplot(data = avengers, aes(x = gender, fill = ratio)) + 
+  geom_bar()
 ```
+ 
+ revenue 
+ movie info 
+ kind info type = 107 
+ use db get query to get ggplot 
+ last slide 
+ collect 
+ 
+ cast info 
+ nr order 
+ order names appear 
+ 
+ look at if femals are playing more main role 
+ 
+ look at box office numbers for endgame 
+ talk about how most marvel movies have male leads 
