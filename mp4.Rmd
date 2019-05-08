@@ -70,6 +70,7 @@ where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
 group by name.gender; 
 ```
 
+<<<<<<< HEAD
 
 #Avengers ggplot
 ```{r} 
@@ -100,6 +101,32 @@ ultron_plot <- ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
 
 ```{r}
 plot_grid(avengers_plot, infinity_plot, ultron_plot)
+=======
+```{r}
+ggplot(data = avengers, aes(x = title, y = ratio)) +
+  geom_bar(color = "gold", stat = "identity", aes(fill = gender)) +
+  labs(caption = "Production Year: 2012", y = "Ratio of Total Actors", x = "The Avengers") + 
+  scale_fill_manual(values = c('#e31a1c', '#0c2c84'), labels = c("Female Cast", "Male Cast")) + 
+  theme(legend.title = element_blank(), axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
+  scale_y_continuous(limits = c(0, 100))
+```
+
+```{r}
+ggplot(data = infinity_war, aes(x = title, y = ratio)) +
+  geom_bar(color = "gold", stat = "identity", aes(fill = gender)) +
+  labs(caption = "Production Year: 2018", y = "Ratio of Total Actors", x = "Infinity War") + 
+  scale_fill_manual(values = c('#e31a1c', '#0c2c84'), labels = c("Female Cast", "Male Cast")) + 
+  theme(legend.title = element_blank(), axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
+  scale_y_continuous(limits = c(0, 100))
+```
+
+```{r}
+ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
+  geom_bar(color = "gold", stat = "identity", aes(fill = gender)) +
+  labs(y = "Ratio of Total Actors", x = "Age of Ultron", caption = "Production Year: 2015") + scale_fill_manual(values = c('#e31a1c', '#0c2c84'), labels = c("Female Cast", "Male Cast")) + 
+  theme(legend.title = element_blank(), axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
+  scale_y_continuous(limits = c(0, 100))
+>>>>>>> c05317fb7369f198e796b338deeaa63fd9f862d1
 ```
 
 
