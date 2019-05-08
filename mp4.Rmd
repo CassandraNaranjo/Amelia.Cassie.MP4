@@ -45,7 +45,7 @@ where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
 group by name.gender;
 ```
 
-#infinty wars
+#infinty war
 ```{sql, connection = db, output.var = "infinity_war"} 
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
 from title
@@ -75,6 +75,11 @@ ggplot(data = avengers, aes(x = gender, y = ratio)) +
   geom_bar(stat = "identity", aes(fill = gender)) +
   labs(title = "The Avengers", subtitle = "Production Year: 2012", y = "Ratio of Total Actors", x = "Gender") +
   scale_y_continuous(limits = c(0, 100))
+ggplot(data = avengers, aes(x = title, y = ratio)) +
+  geom_bar(color = "gold", stat = "identity", aes(fill = gender)) +
+  labs(title = "The Avengers", subtitle = "Production Year: 2012", y = "Ratio of Total Actors", x = "Film") + 
+  scale_fill_manual(values = c('#e31a1c', '#0c2c84'), labels = c("Female Cast", "Male Cast")) + 
+  theme(legend.title = element_blank())
 ```
 
 Red color: #e31a1c
@@ -82,10 +87,16 @@ blue color: #0c2c84
 
 #Age of ultron ggplot
 ```{r}
+<<<<<<< HEAD
 ggplot(data = age_of_ultron, aes(x = gender, y = ratio)) +
   geom_bar(stat = "identity", aes(fill = gender)) +
   labs(title = "Avengers: Age of Ultron War", subtitle = "Production Year: 2015", y = "Ratio of Total Actors", x = "Gender") +
   scale_y_continuous(limits = c(0, 100))
+=======
+ggplot(data = infinity_war, aes(x = gender, y = ratio)) +
+  geom_bar(stat = "identity", aes(fill = gender)) +
+  labs(title = "Avengers: Infinity War", subtitle = "Production Year: 2018", y = "Ratio of Total Actors", x = "Gender")
+>>>>>>> c2c7fae545df44734ce039231d507666d6006bb5
 ```
 
 #Infinity War ggplot
@@ -94,6 +105,12 @@ ggplot(data = infinity_war, aes(x = gender, y = ratio)) +
   geom_bar(stat = "identity", aes(fill = gender)) +
   labs(title = "Avengers: Infinity War", subtitle = "Production Year: 2018", y = "Ratio of Total Actors", x = "Gender") +
   scale_y_continuous(limits = c(0, 100))
+```
+
+```{r}
+ggplot(data = age_of_ultron, aes(x = gender, y = ratio)) +
+  geom_bar(stat = "identity", aes(fill = gender)) +
+  labs(title = "Avengers: Age of Ultron War", subtitle = "Production Year: 2015", y = "Ratio of Total Actors", x = "Gender")
 ```
 
 Notes:
