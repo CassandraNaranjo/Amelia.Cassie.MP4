@@ -87,7 +87,13 @@ infinity_plot <- ggplot(data = infinity_war, aes(x = title, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
   labs(caption = "Production Year: 2018", y = "Ratio of Total Actors", x = "Infinity War") + 
   scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
-  theme(legend.title = element_blank(), axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
+  theme(legend.title = element_blank(), 
+        axis.text.x = element_blank(), 
+        axis.title.x = element_text(size = 20), 
+        axis.ticks.x = element_blank(),
+        axis.text.y = element_text(), 
+        axis.title.y = element_blank(), 
+        axis.ticks.y = element_blank()) +
   scale_y_continuous(limits = c(0, 100))
 ```
 
@@ -96,14 +102,18 @@ infinity_plot <- ggplot(data = infinity_war, aes(x = title, y = ratio)) +
 ultron_plot <- ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
  labs(y = "Ratio of Total Actors", x = "Age of Ultron", caption = "Production Year: 2015") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
-    theme(legend.title = element_blank(), axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
-  scale_y_continuous(limits = c(0, 100))
+    theme(legend.title = element_blank(), 
+          axis.text.x = element_blank(), 
+          axis.title.x = element_text(size = 20), 
+          axis.ticks.x = element_blank(), 
+          axis.text.y = element_text(), 
+          axis.title.y = element_blank(), 
+          axis.ticks.y = element_blank())
 ```
 
 ```{r}
 plot_grid(avengers_plot, ultron_plot, infinity_plot)
 ```
-
 
 
 Notes:
