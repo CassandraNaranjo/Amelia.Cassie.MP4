@@ -79,22 +79,22 @@ ggplot(data = avengers, aes(x = title, y = ratio)) +
   theme(legend.title = element_blank())
 ```
 
- scale_fill_manual(values = c("#9ecae1", "#fc9272", "#3182bd", "#de2d26"), name = "Condition", labels = c("Democratic Nonwinner", "Republican Nonwinner", "Democratic Winner", "Republican Winner"))+
-Red color: #e31a1c
-blue color: #0c2c84
- 
+
 #Infinity War ggplot
 ```{r}
-ggplot(data = infinity_war, aes(x = gender, y = ratio)) +
-  geom_bar(stat = "identity", aes(fill = gender)) +
-  labs(title = "Avengers: Infinity War", subtitle = "Production Year: 2018", y = "Ratio of Total Actors", x = "Gender")
+ggplot(data = infinity_war, aes(x = title, y = ratio)) +
+  geom_bar(color = "gold", stat = "identity", aes(fill = gender)) +
+  labs(title = "Avengers: Infinity War", subtitle = "Production Year: 2018", y = "Ratio of Total Actors", x = "Gender") + 
+  scale_fill_manual(values = c('#e31a1c', '#0c2c84'), labels = c("Female Cast", "Male Cast")) + 
+  theme(legend.title = element_blank())
 ```
 
 #Age of ultron ggplot
 ```{r}
-ggplot(data = age_of_ultron, aes(x = gender, y = ratio)) +
-  geom_bar(stat = "identity", aes(fill = gender)) +
-  labs(title = "Avengers: Age of Ultron War", subtitle = "Production Year: 2015", y = "Ratio of Total Actors", x = "Gender")
+ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
+  geom_bar(color = "gold", stat = "identity", aes(fill = gender)) +
+  labs(title = "Avengers: Age of Ultron War", subtitle = "Production Year: 2015", y = "Ratio of Total Actors", x = "Gender") + scale_fill_manual(values = c('#e31a1c', '#0c2c84'), labels = c("Female Cast", "Male Cast")) + 
+  theme(legend.title = element_blank())
 ```
 
 
