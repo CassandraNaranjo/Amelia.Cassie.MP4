@@ -53,9 +53,15 @@ where cast_info.movie_id like '4316706'and name.gender IS NOT NULL
 group by name.gender; 
 ```
 
+<<<<<<< HEAD
 #infinity war
 ```{sql, output.var = "infinity_war"} 
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
+=======
+#infinty war
+```{sql} 
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender, ((count(cast_info.person_id))/115)*100 as ratio
+>>>>>>> 1031af19ed0e0e9d502ff29b6c6d8fb827c235cb
 from title
 join cast_info
 on title.id = cast_info.movie_id
@@ -63,4 +69,14 @@ join name
 on cast_info.person_id = name.id
 where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
 group by name.gender; 
+```
+ 
+find ratios 
+
+```{sql eval = FALSE}
+select person_id, movie_id, title.title
+from cast_info
+join title 
+on cast_info.movie_id = title.id
+where person_id = '636699' and title.title like '%Avengers%';
 ```
