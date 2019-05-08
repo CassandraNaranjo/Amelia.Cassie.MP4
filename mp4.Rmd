@@ -12,6 +12,8 @@ library(ggplot2)
 library(ggthemes)
 library(RColorBrewer)
 library(cowplot)
+library(ggpubr)
+library(gridExtra)
 library(RMySQL)
 library(ggthemes)
 db <- dbConnect(MySQL(), 
@@ -77,7 +79,7 @@ avengers_plot <- ggplot(data = avengers, aes(x = title, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
    labs(caption = "Production Year: 2012", y = "Ratio of Total Actors", x = "The Avengers")+ 
   scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
-    theme(legend.title = element_blank(), axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
+    theme(legend.title = element_blank(), legend.position = "none", axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
   scale_y_continuous(limits = c(0, 100))
 ```
 
@@ -88,7 +90,17 @@ infinity_plot <- ggplot(data = infinity_war, aes(x = title, y = ratio)) +
   labs(caption = "Production Year: 2018", y = "Ratio of Total Actors", x = "Infinity War") + 
   scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
   theme(legend.title = element_blank(), axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
-  scale_y_continuous(limits = c(0, 100))
+  scale_y_continuous(limits = c(0, 100)) + 
+      theme(plot.title = element_blank(),
+        axis.title.y = element_blank(),
+        panel.background=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        axis.text = element_text(size = 5, color = "black"),
+        axis.text.y = element_blank())
+```
 ```
 
 #Age of ultron ggplot
@@ -96,12 +108,21 @@ infinity_plot <- ggplot(data = infinity_war, aes(x = title, y = ratio)) +
 ultron_plot <- ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
  labs(y = "Ratio of Total Actors", x = "Age of Ultron", caption = "Production Year: 2015") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
-    theme(legend.title = element_blank(), axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
-  scale_y_continuous(limits = c(0, 100))
+    theme(legend.title = element_blank(), legend.position = "none", axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
+  scale_y_continuous(limits = c(0, 100)) + 
+    theme(plot.title = element_blank(),
+        axis.title.y = element_blank(),
+        panel.background=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        axis.text = element_text(size = 5, color = "black"),
+        axis.text.y = element_blank())
 ```
 
 ```{r}
-plot_grid(avengers_plot, ultron_plot, infinity_plot)
+plot_grid(avengers_plot, ultron_plot, infinity_plot) 
 ```
 
 
