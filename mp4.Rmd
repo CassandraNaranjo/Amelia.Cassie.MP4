@@ -19,6 +19,17 @@ knitr::opts_chunk$set(connection = db, max.print = 20)
 ```
 
 #age of ultron
+```{sql, output.var = "age_of_ultron"}
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
+group by name.gender; 
+```
+
 ```{sql}
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
 from title
@@ -31,7 +42,7 @@ group by name.gender;
 ```
 
 #avengers
-```{sql} 
+```{sql, output.var = "avengers"} 
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
 from title
 join cast_info
@@ -42,8 +53,8 @@ where cast_info.movie_id like '4316706'and name.gender IS NOT NULL
 group by name.gender; 
 ```
 
-#infinty war
-```{sql} 
+#infinity war
+```{sql, output.var = "infinity_war"} 
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id), name.gender
 from title
 join cast_info
