@@ -12,6 +12,8 @@ library(ggplot2)
 library(ggthemes)
 library(RColorBrewer)
 library(cowplot)
+library(ggpubr)
+library(gridExtra)
 library(RMySQL)
 library(ggthemes)
 db <- dbConnect(MySQL(), 
@@ -22,7 +24,18 @@ db <- dbConnect(MySQL(),
 knitr::opts_chunk$set(connection = db, max.print = 20)
 ```
 
-#avengers
+Avengers Query
+```{sql}
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/296)*100 as ratio
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '4316706'and name.gender IS NOT NULL
+group by name.gender; 
+```
+
 ```{sql, connection = db, output.var = "avengers"} 
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/296)*100 as ratio
 from title
@@ -30,11 +43,23 @@ join cast_info
 on title.id = cast_info.movie_id
 join name
 on cast_info.person_id = name.id
-where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
+where cast_info.movie_id like '4316706'and name.gender IS NOT NULL
 group by name.gender; 
 ```
 
-#age of ultron
+
+Age of Ultron Query
+```{sql}
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/290)*100 as ratio
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
+group by name.gender;
+```
+
 ```{sql, connection = db, output.var = "age_of_ultron"}
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/290)*100 as ratio
 from title
@@ -46,7 +71,18 @@ where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
 group by name.gender;
 ```
 
-#infinty war
+Infinty War Query
+```{sql}
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
+group by name.gender;
+```
+
 ```{sql, connection = db, output.var = "infinity_war"} 
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
 from title
@@ -58,63 +94,77 @@ where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
 group by name.gender; 
 ```
 
-#to see tables
-```{sql}
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
-from title
-join cast_info
-on title.id = cast_info.movie_id
-join name
-on cast_info.person_id = name.id
-where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
-group by name.gender; 
-```
-
-
-#Avengers ggplot
-```{r} 
+```{r}
+#Avengers Ggplot
 avengers_plot <- ggplot(data = avengers, aes(x = title, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
-   labs(caption = "Production Year: 2012", y = "Ratio of Total Actors", x = "The Avengers")+ 
+   labs(caption = "2012", y = "Ratio of Total Actors", x = "The Avengers")+ 
   scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
-    theme(legend.title = element_blank(), axis.text.x = element_blank(), axis.title.x = element_text(size = 20), axis.ticks.x = element_blank()) +
-  scale_y_continuous(limits = c(0, 100))
-```
-
-#Infinity War ggplot
-```{r} 
-infinity_plot <- ggplot(data = infinity_war, aes(x = title, y = ratio)) +
-  geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
-  labs(caption = "Production Year: 2018", y = "Ratio of Total Actors", x = "Infinity War") + 
-  scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
-  theme(legend.title = element_blank(), 
-        axis.text.x = element_blank(), 
-        axis.title.x = element_text(size = 20), 
-        axis.ticks.x = element_blank(),
-        axis.text.y = element_text(), 
-        axis.title.y = element_blank(), 
-        axis.ticks.y = element_blank()) +
-  scale_y_continuous(limits = c(0, 100))
-```
-
-#Age of ultron ggplot
-```{r} 
-ultron_plot <- ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
-  geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
- labs(y = "Ratio of Total Actors", x = "Age of Ultron", caption = "Production Year: 2015") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
     theme(legend.title = element_blank(), 
+          legend.position = "none", 
           axis.text.x = element_blank(), 
-          axis.title.x = element_text(size = 20), 
-          axis.ticks.x = element_blank(), 
-          axis.text.y = element_text(), 
-          axis.title.y = element_blank(), 
-          axis.ticks.y = element_blank())
+          axis.title.x = element_text(size = 15), 
+          axis.ticks.x = element_blank(),
+          plot.caption = element_text(size = 8)) +
+  scale_y_continuous(limits = c(0, 100)) +
+  annotate("text", x = 1.2, y = 79, label = "26%", color = "white", size = 5, fontface = 'bold')
 ```
 
 ```{r}
-plot_grid(avengers_plot, ultron_plot, infinity_plot)
+#Age of Ultron Ggplot
+ultron_plot <- ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
+  geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
+ labs(y = "Ratio of Total Actors", x = "Age of Ultron", caption = "2015") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
+    theme(legend.title = element_blank(), 
+          legend.position = "none", 
+          axis.text.x = element_blank(), 
+          axis.title.x = element_text(size = 15), 
+          axis.ticks.x = element_blank(),
+          plot.title = element_blank(),
+        axis.title.y = element_blank(),
+        panel.background=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        axis.text = element_text(size = 5, color = "black"),
+        axis.text.y = element_blank(),
+        plot.caption = element_text(size = 8)) +
+  scale_y_continuous(limits = c(0, 100)) +
+  annotate("text", x = 1.2, y = 74, label = "31%", color = "white", size = 5, fontface = 'bold')
 ```
 
+```{r}
+#Infinity War Ggplot
+infinity_plot <- ggplot(data = infinity_war, aes(x = title, y = ratio)) +
+  geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
+  labs(caption = "2018", y = "Ratio of Total Actors", x = "Infinity War") + 
+  scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
+  scale_y_continuous(limits = c(0, 100)) + 
+      theme(plot.title = element_blank(),
+        axis.title.y = element_blank(),
+        panel.background=element_blank(),
+        panel.grid.major=element_blank(),
+        panel.border = element_blank(),
+        panel.grid.minor=element_blank(),
+        plot.background=element_blank(),
+        axis.text = element_text(size = 5, color = "black"),
+        axis.text.y = element_blank(),
+        legend.title = element_blank(),
+        axis.text.x = element_blank(),
+        axis.title.x = element_text(size = 15),
+        axis.ticks.x = element_blank(),
+        legend.position = c(0.1, 0.13),
+        legend.text = element_text(colour="white", size=10, 
+                                     face="italic"),
+        plot.caption = element_text(size = 8)) +
+  annotate("text", x = 1.2, y = 79, label = "26%", color = "white", size = 5, fontface = 'bold')
+```
+
+```{r}
+#Merging data graphics
+plot_grid(avengers_plot, ultron_plot, infinity_plot, align = "v", nrow = 1, rel_widths = c(1/3.33, 1/3.33, 1/3.33))
+```
 
 Notes:
  revenue 
