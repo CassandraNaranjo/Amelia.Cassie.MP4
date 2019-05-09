@@ -16,6 +16,7 @@ library(ggpubr)
 library(gridExtra)
 library(RMySQL)
 library(ggthemes)
+library(grid)
 db <- dbConnect(MySQL(), 
                 host = "scidb.smith.edu", 
                 user = "mth292", 
@@ -156,10 +157,6 @@ title <- ggdraw() + draw_label("Actor Gender Ratios in Avengers Movies", fontfac
 plot_grid(title, p, ncol = 1, rel_heights=c(0.1, 1), rel_widths = c(1/3.33, 1/3.33, 1/3.33))
 ```
 
-```{r}
-plot_grid(title, p, ncol = 1, rel_heights=c(0.1, 1))
-```
-
 Looking at top 15 actors in each movie
 #Age of Ultron
 ```{sql}
@@ -224,6 +221,14 @@ infinity_creation <- ggplot(data = infinity_wars_2, aes(x = movie_id, y = ratio)
 ```
 
 ```{r}
+grob_20 <- grobTree(textGrob("20%", x= .78, y= .81,
+  gp=gpar(col="white", fontsize= 15 , fontface="bold")))
+
+grob_10 <- grobTree(textGrob("10%", x= .78, y= .90,
+  gp=gpar(col="white", fontsize= 15 , fontface="bold")))
+```
+
+```{r}
 ultron_plot_10 <- ggplot(data = age_of_ultron_10, aes(x = movie_id, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
  labs(x = "Age of Ultron", y = "Ratio of Top Actors", caption = "2015") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
@@ -236,7 +241,8 @@ ultron_plot_10 <- ggplot(data = age_of_ultron_10, aes(x = movie_id, y = ratio)) 
         axis.title.y = element_blank(),
         axis.text = element_text(size = 5, color = "black"),
         axis.text.y = element_blank(),
-        plot.caption = element_text(size = 8))
+        plot.caption = element_text(size = 8)) +
+    annotation_custom(grob_10)
 ```
 
 ```{r}
@@ -249,7 +255,8 @@ avengers_plot_10 <- ggplot(data = avengers_10, aes(x = movie_id, y = ratio)) +
           axis.title.x = element_text(size = 15), 
           axis.ticks.x = element_blank(),
           plot.caption = element_text(size = 8)) +
-  scale_y_continuous(limits = c(0, 100))
+  scale_y_continuous(limits = c(0, 100)) +
+  annotation_custom(grob_20)
 ```
 
 ```{r}
@@ -272,7 +279,8 @@ infinity_10 <- ggplot(data = avengers_10, aes(x = movie_id, y = ratio)) +
         legend.position = c(0.1, 0.13),
         legend.text = element_text(colour="white", size=10, 
                                      face="italic"),
-        plot.caption = element_text(size = 8))
+        plot.caption = element_text(size = 8)) +
+    annotation_custom(grob_20)
 ```
 
 ```{r}
