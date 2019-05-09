@@ -162,10 +162,24 @@ infinity_plot <- ggplot(data = infinity_war, aes(x = title, y = ratio)) +
 ```
 
 ```{r}
-#Merging data graphics
-plot_grid(avengers_plot, ultron_plot, infinity_plot, align = "v", nrow = 1, rel_widths = c(1/3.33, 1/3.33, 1/3.33))
+#Creating merged data graphics
+p <- plot_grid(avengers_plot, ultron_plot, infinity_plot, align = "v", nrow = 1, rel_widths = c(1/3.33, 1/3.33, 1/3.33))
 ```
 
+```{r}
+#creating title of merged data graphic
+#not using right now
+title <- ggdraw() + draw_label("Actor Gender Ratios in Avengers Movies", fontface = 'bold')
+```
+
+```{r}
+#Adding title to merged data graphics
+#not using right now
+plot_grid(title, p, ncol = 1, rel_heights=c(0.1, 1), rel_widths = c(1/3.33, 1/3.33, 1/3.33))
+```
+
+
+rel_widths = c(1/3.33, 1/3.33, 1/3.33)
 Notes:
  revenue 
  movie info 
