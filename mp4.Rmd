@@ -177,25 +177,8 @@ plot_grid(title, p, ncol = 1, rel_heights=c(0.1, 1))
 ```
 
 Looking at top 15 actors in each movie
-#Avengers
-```{sql}
-select distinct name, person_id, role_id, movie_id,nr_order, gender
-from cast_info
-join name on cast_info.person_id = name.id
-where nr_order < 16 and movie_id = 4316706 and role_id < 3
-order by nr_order
-```
-
-```{sql}
-select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
-from cast_info
-join name on cast_info.person_id = name.id
-where movie_id = 3313672 and nr_order < 11 and role_id < 3
-group by gender
-```
-
 #Age of Ultron
-```{sql, output.var = "age_of_ultron_2"}
+```{sql}
 select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
 from cast_info
 join name on cast_info.person_id = name.id
@@ -203,16 +186,53 @@ where movie_id = 3313672 and nr_order < 11 and role_id < 3
 group by gender
 ```
 
-```{r}
-#creating x axis labels
-x_labels <- c("Female", "Male")
+```{sql, output.var = "age_of_ultron_10"}
+select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
+from cast_info
+join name on cast_info.person_id = name.id
+where movie_id = 3313672 and nr_order < 11 and role_id < 3
+group by gender
+```
+
+Avengers
+```{sql, output.var = "avengers_10"}
+select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
+from cast_info
+join name on cast_info.person_id = name.id
+where movie_id = 4316706 and nr_order < 11 and role_id < 3
+group by gender 
+```
+
+```{sql}
+select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
+from cast_info
+join name on cast_info.person_id = name.id
+where movie_id = 4316706 and nr_order < 11 and role_id < 3
+group by gender 
 ```
 
 ```{r}
-ggplot(data = age_of_ultron_2, aes(x = movie_id, y = ratio)) +
+ultron_10 <- ggplot(data = age_of_ultron_10, aes(x = movie_id, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
- labs(title = "Top 10 Actors: Age of Ultron", y = "Ratio of Top Actors", caption = "Production Year: 2015") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
+ labs(y = "Ratio of Top Actors", caption = "2015") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
     theme(legend.title = element_blank(),
+        axis.text = element_text(size = 15, color = "black"),
+        axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.text.y = element_blank(),
+        axis.title.y = element_blank(),
+        plot.caption = element_text(size = 10)) +
+  scale_y_continuous(limits = c(0, 100))
+```
+
+```{r}
+avengers_10 <- ggplot(data = avengers_10, aes(x = movie_id, y = ratio)) +
+  geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
+ labs(y = "Ratio of Top Actors", caption = "2012") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
+    theme(legend.title = element_blank(),
+          legend.position = "blank",
         axis.text = element_text(size = 15, color = "black"),
         axis.text.x = element_blank(),
         axis.title.x = element_blank(),
@@ -221,7 +241,21 @@ ggplot(data = age_of_ultron_2, aes(x = movie_id, y = ratio)) +
   scale_y_continuous(limits = c(0, 100))
 ```
 
-annotate("text", x = 1.2, y = 74, label = "%", color = "white", size = 5, fontface = 'bold')
+```{r}
+#Creating merged data graphics
+p_10 <- plot_grid(avengers_10, ultron_10, align = "v", nrow = 1, rel_widths = c(1/3.33, 1/3.33, 1/3.33))
+```
+
+```{r}
+#Creating title of merged data graphic
+title_10 <- ggdraw() + draw_label("Top 10 Actor Gender Ratios in Avengers Movies", fontface = 'bold')
+```
+
+```{r}
+#Adding title to merged data graphics
+plot_grid(title_10, p_10, ncol = 1, rel_heights=c(0.1, 1))
+```
+
 
 Notes:
  revenue 
