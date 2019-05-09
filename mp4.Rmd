@@ -1,7 +1,7 @@
 ---
 title: "Have Marvel Movies Become More Female Inclusive?"
-author: "Amelia Stapleton and Cassie Naranjo"
-date: "4/30/2019"
+author: "Written by: Amelia Stapleton and Cassie Naranjo"
+date: "May 10th 2019"
 output: 
   html_document:
     code_folding: hide
@@ -25,14 +25,19 @@ db <- dbConnect(MySQL(),
 knitr::opts_chunk$set(connection = db, max.print = 20)
 ```
 
+##Picture of Female Avengers characters
 ```{r, echo = FALSE}
 url <- "https://66.media.tumblr.com/01c5147c146e8a756f00434317a78a8a/tumblr_pggq87zdF11wj2s3io1_400.jpg"
 ```
 
 ! [ ] ('url')
 
-Avengers Query
+##Blurb about new endgame movie and how there are seemingly more diverse chracters, and also more female characters. Moving away from the white male superhero to superheros who are female and people of color. But really how more diverse is it gender wise?? Make sure to include a problem statement
 
+##Talk about the avengers movie and the spread of the 4 over the course of the years...
+hyperlink to the imdb website for each avengers movie?
+
+Avengers Query
 ```{sql, connection = db, output.var = "avengers"} 
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/296)*100 as ratio
 from title
@@ -45,7 +50,6 @@ group by name.gender;
 ```
 
 Age of Ultron Query
-
 ```{sql, connection = db, output.var = "age_of_ultron"}
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/290)*100 as ratio
 from title
@@ -298,20 +302,18 @@ title_10 <- ggdraw() + draw_label("Top 10 Actor Gender Ratios in Avengers Movies
 plot_grid(title_10, p_10, ncol = 1, rel_heights=c(0.1, 1))
 ```
 
+##Counter-argument
+##Talk about female lead roles as a whole in the movie industry -- has it gone up, done, what?
+##Maybe look up box office numbers if the avengers movies did better when more female lead roles
+ 
 
-Notes:
- revenue 
- movie info 
- kind info type = 107 
- use db get query to get ggplot 
- last slide 
- collect 
- 
- cast info 
- nr order 
- order names appear 
- 
- look at if females are playing more main role 
- 
- look at box office numbers for endgame 
- talk about how most marvel movies have male leads 
+##Footnotes:
+ - No endgame data in imdb
+ - Used avengers data for infinity data in graphic two because same numbers when we calculated it ourselves using the imdb website
+ -  Github repository 
+
+At least 800 words, no more than 1200
+```{r, message = FALSE, echo = FALSE}
+##Word Count
+wordcountaddin::word_count()
+```
