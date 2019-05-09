@@ -1,5 +1,5 @@
 ---
-title: "Mini Project 4"
+title: "Have Marvel Movies Become More Female Inclusive?"
 author: "Amelia Stapleton and Cassie Naranjo"
 date: "4/30/2019"
 output: 
@@ -24,6 +24,12 @@ db <- dbConnect(MySQL(),
 knitr::opts_chunk$set(connection = db, max.print = 20)
 ```
 
+```{r, echo = FALSE}
+url <- "https://66.media.tumblr.com/01c5147c146e8a756f00434317a78a8a/tumblr_pggq87zdF11wj2s3io1_400.jpg"
+```
+
+! [ ] ('url')
+
 Avengers Query
 ```{sql}
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/296)*100 as ratio
@@ -46,7 +52,6 @@ on cast_info.person_id = name.id
 where cast_info.movie_id like '4316706'and name.gender IS NOT NULL
 group by name.gender; 
 ```
-
 
 Age of Ultron Query
 ```{sql}
@@ -122,11 +127,6 @@ ultron_plot <- ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
           axis.ticks.x = element_blank(),
           plot.title = element_blank(),
         axis.title.y = element_blank(),
-        panel.background=element_blank(),
-        panel.grid.major=element_blank(),
-        panel.border = element_blank(),
-        panel.grid.minor=element_blank(),
-        plot.background=element_blank(),
         axis.text = element_text(size = 5, color = "black"),
         axis.text.y = element_blank(),
         plot.caption = element_text(size = 8)) +
@@ -167,19 +167,62 @@ p <- plot_grid(avengers_plot, ultron_plot, infinity_plot, align = "v", nrow = 1,
 ```
 
 ```{r}
-#creating title of merged data graphic
-#not using right now
+#Creating title of merged data graphic
 title <- ggdraw() + draw_label("Actor Gender Ratios in Avengers Movies", fontface = 'bold')
 ```
 
 ```{r}
 #Adding title to merged data graphics
-#not using right now
-plot_grid(title, p, ncol = 1, rel_heights=c(0.1, 1), rel_widths = c(1/3.33, 1/3.33, 1/3.33))
+plot_grid(title, p, ncol = 1, rel_heights=c(0.1, 1))
 ```
 
+Looking at top 15 actors in each movie
+#Avengers
+```{sql}
+select distinct name, person_id, role_id, movie_id,nr_order, gender
+from cast_info
+join name on cast_info.person_id = name.id
+where nr_order < 16 and movie_id = 4316706 and role_id < 3
+order by nr_order
+```
 
-rel_widths = c(1/3.33, 1/3.33, 1/3.33)
+```{sql}
+select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
+from cast_info
+join name on cast_info.person_id = name.id
+where movie_id = 3313672 and nr_order < 11 and role_id < 3
+group by gender
+```
+
+#Age of Ultron
+```{sql, output.var = "age_of_ultron_2"}
+select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
+from cast_info
+join name on cast_info.person_id = name.id
+where movie_id = 3313672 and nr_order < 11 and role_id < 3
+group by gender
+```
+
+```{r}
+#creating x axis labels
+x_labels <- c("Female", "Male")
+```
+
+```{r}
+ggplot(data = age_of_ultron_2, aes(x = movie_id, y = ratio)) +
+  geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
+ labs(title = "Top 10 Actors: Age of Ultron", y = "Ratio of Top Actors", caption = "Production Year: 2015") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
+    theme(legend.title = element_blank(),
+        axis.text = element_text(size = 15, color = "black"),
+        axis.text.x = element_blank(),
+        axis.title.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        plot.caption = element_text(size = 10)) +
+  scale_y_continuous(limits = c(0, 100))
+```
+
+annotate("text", x = 1.2, y = 74, label = "%", color = "white", size = 5, fontface = 'bold')
+
 Notes:
  revenue 
  movie info 
@@ -192,7 +235,7 @@ Notes:
  nr order 
  order names appear 
  
- look at if femals are playing more main role 
+ look at if females are playing more main role 
  
  look at box office numbers for endgame 
  talk about how most marvel movies have male leads 
