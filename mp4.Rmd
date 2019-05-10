@@ -1,7 +1,7 @@
 ---
 title: "Have Marvel Movies Become More Female Inclusive?"
-author: "Written by: Amelia Stapleton and Cassie Naranjo"
-date: "May 10th 2019"
+author: "By: Amelia Stapleton and Cassie Naranjo"
+date: "May 9th 2019"
 output: 
   html_document:
     code_folding: hide
@@ -25,19 +25,13 @@ db <- dbConnect(MySQL(),
 knitr::opts_chunk$set(connection = db, max.print = 20)
 ```
 
-##Picture of Female Avengers characters
-```{r, echo = FALSE}
-url <- "https://66.media.tumblr.com/01c5147c146e8a756f00434317a78a8a/tumblr_pggq87zdF11wj2s3io1_400.jpg"
-```
+![ ](https://hips.hearstapps.com/digitalspyuk.cdnds.net/18/07/1518706598-femaleavengers.jpg?resize=480:*)
 
-! [ ] ('url')
+When you think of a superhero, what do they look like? Do you imagine a traditional buff white male wearing tight pants and holding a shield or a strong African American woman adorning a red battlesuit and a sphere? Characters such as Captain America and Okoye in the Avengers series fit both of these bills. However, characters like Okoye have not always been featured in these hallmark superhero films. That being said, more recent Avengers movies have moved away from the stereotypical superhero bill and towards more diverse characters that resemble a larger proportion of the world’s population, with characters such as Okoye, Captain Marvel, Valkyrie, and Black Panther.  With the newest and final Avengers movie [Endgame](https://www.imdb.com/title/tt4154796/) recently hitting theaters and creating a tidal wave in the box office [grossing over 2 billion dollars worldwide]( https://www.boxofficemojo.com/movies/?id=marvel2019.htm), our team thought we would investigate if the Avengers franchise really has become more diverse throughout the series by exploring the number of female roles, both lead and total, the series has adopted. If the number has increased with each film, perhaps we are seeing the effects of the fight for female representation in cinema in Marvel’s scripts. If that is not the case, perhaps the white male superhero engrainment in our culture needs some more work. 
 
-##Blurb about new endgame movie and how there are seemingly more diverse chracters, and also more female characters. Moving away from the white male superhero to superheros who are female and people of color. But really how more diverse is it gender wise?? Make sure to include a problem statement
+![ ](https://m.media-amazon.com/images/M/MV5BNDYxNjQyMjAtNTdiOS00NGYwLWFmNTAtNThmYjU5ZGI2YTI1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_UX182_CR0,0,182,268_AL_.jpg)![](https://images-na.ssl-images-amazon.com/images/I/719S7I-%2ByBL._SY679_.jpg)![](https://images-na.ssl-images-amazon.com/images/I/A1t8xCe9jwL._SY679_.jpg)![](https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/674b36f0-7771-4188-b382-ade2d495544a/dcu3a1p-a87eac2f-3d24-4eb8-90a6-2c7831344362.png/v1/fill/w_714,h_1119,q_70,strp/avengers_endgame_poster_by_iamtherealnova_dcu3a1p-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MjAwNyIsInBhdGgiOiJcL2ZcLzY3NGIzNmYwLTc3NzEtNDE4OC1iMzgyLWFkZTJkNDk1NTQ0YVwvZGN1M2ExcC1hODdlYWMyZi0zZDI0LTRlYjgtOTBhNi0yYzc4MzEzNDQzNjIucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.00Rly469X45SkQtxYdjkmUjZCLnlja5gH8ZqmG4PMHw)
 
-##Talk about the avengers movie and the spread of the 4 over the course of the years...
-hyperlink to the imdb website for each avengers movie?
-
-Avengers Query
+The first Avengers movie, [The Avengers]( https://www.imdb.com/title/tt0848228/?ref_=nv_sr_3?ref_=nv_sr_3), which came out in 2012, featured some of Marvel’s most popular superheroes all fighting together to save the universe from Loki, the Asgardian god of mischief and adopted brother to Thor, the much more liked Asgardian god of thunder. The offical movie poster (pictured above) shows prominent heros Iron Man, Captain America, Hulk, Thor, Hawkeye, and Nick Fury, and one female hero: Black Widow.The first Avengers movie, [The Avengers], which came out in 2012, featured some of Marvel’s most popular superheroes all fighting together to save the universe from Loki, the Asgardian god of mischief and adopted brother to Thor, the much more liked Asgardian god of thunder. The offical movie poster (pictured above) shows prominent heros Iron Man, Captain America, Hulk, Thor, Hawkeye, and Nick Fury, and one female hero: Black Widow. 
 ```{sql, connection = db, output.var = "avengers"} 
 SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/296)*100 as ratio
 from title
@@ -46,41 +40,6 @@ on title.id = cast_info.movie_id
 join name
 on cast_info.person_id = name.id
 where cast_info.movie_id like '4316706'and name.gender IS NOT NULL
-group by name.gender; 
-```
-
-Age of Ultron Query
-```{sql, connection = db, output.var = "age_of_ultron"}
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/290)*100 as ratio
-from title
-join cast_info
-on title.id = cast_info.movie_id
-join name
-on cast_info.person_id = name.id
-where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
-group by name.gender;
-```
-
-Infinty War Query
-```{sql}
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
-from title
-join cast_info
-on title.id = cast_info.movie_id
-join name
-on cast_info.person_id = name.id
-where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
-group by name.gender;
-```
-
-```{sql, connection = db, output.var = "infinity_war"} 
-SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
-from title
-join cast_info
-on title.id = cast_info.movie_id
-join name
-on cast_info.person_id = name.id
-where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
 group by name.gender; 
 ```
 
@@ -100,6 +59,18 @@ avengers_plot <- ggplot(data = avengers, aes(x = title, y = ratio)) +
   annotate("text", x = 1.2, y = 79, label = "26%", color = "white", size = 5, fontface = 'bold')
 ```
 
+The second Avengers movie, [Avengers: Age of Ultron](https://www.imdb.com/title/tt2395427/), came out in 2015 and featured the superhero group fighting together to save humankind from the supervillain Ultron, who believed that in order to safe the earth he had to end human life. Black Widow remained in this film and there was the addition of one additional lead female character: Scarlet Witch.
+```{sql, connection = db, output.var = "age_of_ultron"}
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/290)*100 as ratio
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '3313672'and name.gender IS NOT NULL
+group by name.gender;
+```
+
 ```{r}
 #Age of Ultron Ggplot
 ultron_plot <- ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
@@ -117,6 +88,18 @@ ultron_plot <- ggplot(data = age_of_ultron, aes(x = title, y = ratio)) +
         plot.caption = element_text(size = 8)) +
   scale_y_continuous(limits = c(0, 100)) +
   annotate("text", x = 1.2, y = 74, label = "31%", color = "white", size = 5, fontface = 'bold')
+```
+
+[Avengers: Infinity War](https://www.imdb.com/title/tt4154756/?ref_=nv_sr_1?ref_=nv_sr_1) came out in 2018 and marked the third Avengers movie of the series. This time, the group is facing the most powerful supervillain they’ve come across yet; Thanos, who is hellbent on collecting all six infinity stones and becoming ruler of the world. This movie brought in more female characters, namely Gamora, Nebula, Proxima Midnight, Okoye, Shuri, and Mantis, while still featuring the well-known characters Black Widow and Scarlet Witch. 
+```{sql, connection = db, output.var = "infinity_war"} 
+SELECT title.id, title.title, title.production_year, COUNT(cast_info.person_id) as N, name.gender, ((count(cast_info.person_id))/115)*100 as ratio
+from title
+join cast_info
+on title.id = cast_info.movie_id
+join name
+on cast_info.person_id = name.id
+where cast_info.movie_id like '3313680'and name.gender IS NOT NULL
+group by name.gender; 
 ```
 
 ```{r}
@@ -146,6 +129,8 @@ infinity_plot <- ggplot(data = infinity_war, aes(x = title, y = ratio)) +
   annotate("text", x = 1.2, y = 79, label = "26%", color = "white", size = 5, fontface = 'bold')
 ```
 
+The final film of the Avengers series, [Endgame](https://www.imdb.com/title/tt4154796/?ref_=nv_sr_1?ref_=nv_sr_1), recently came out at the end of April and data regarding the gender of total cast members has not been uploaded on the IMDB database yet. When looking at all cast members in the first three Avengers movies, Avengers, Age of Ultron, and Infinity War, there seems to be a similar trend of female actors encompassing about 30 percent of the total cast, while male actors make up the remaining 70 percent (Figure 1). This means from both lead roles to supporting roles to background extras, that the majority by far of actors in the Avengers series are male.
+
 ```{r}
 #Creating merged data graphics
 p <- plot_grid(avengers_plot, ultron_plot, infinity_plot, align = "v", nrow = 1, rel_widths = c(1/3.33, 1/3.33, 1/3.33))
@@ -156,60 +141,47 @@ p <- plot_grid(avengers_plot, ultron_plot, infinity_plot, align = "v", nrow = 1,
 title <- ggdraw() + draw_label("Actor Gender Ratios in Avengers Movies", fontface = 'bold')
 ```
 
+*Figure 1*
 ```{r}
 #Adding title to merged data graphics
 plot_grid(title, p, ncol = 1, rel_heights=c(0.1, 1), rel_widths = c(1/3.33, 1/3.33, 1/3.33))
 ```
 
-Looking at top 15 actors in each movie
-#Age of Ultron
-```{sql}
-select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
+
+In addition, when looking at the top 15 lead roles, as listed by IMDB in the credits order, there is a similar discrepancy in female to male lead roles (Figure 2).This can also be seen in Endgame for when looking at the top 15 list characters on the [IMDB website] for only 33 percent of them are female (hyperlink = https://www.imdb.com/title/tt4154796/). 
+
+```{sql, output.var = "age_of_ultron_15"}
+select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/15)*100 as ratio
 from cast_info
 join name on cast_info.person_id = name.id
-where movie_id =  4316706 and nr_order < 11 and role_id < 3
-group by gender 
-```
-Ultron
-```{sql, output.var = "age_of_ultron_10"}
-select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
-from cast_info
-join name on cast_info.person_id = name.id
-where movie_id = 3313672 and nr_order < 11 and role_id < 3
+where movie_id = 3313672 and nr_order < 16 and role_id < 3
 group by gender
 ```
 
-Avengers
-```{sql, output.var = "avengers_10"}
-select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
+```{sql, output.var = "avengers_15"}
+select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/15)*100 as ratio
 from cast_info
 join name on cast_info.person_id = name.id
-where movie_id = 4316706 and nr_order < 11 and role_id < 3
+where movie_id = 4316706 and nr_order < 16 and role_id < 3
 group by gender 
 ```
 
-```{sql}
-select movie_id, gender, count(distinct person_id), ((count(distinct person_id))/10)*100 as ratio
-from cast_info
-join name on cast_info.person_id = name.id
-where movie_id = 4316706 and nr_order < 11 and role_id < 3
-group by gender 
-```
-
-```{r}
-#Infinity data
+```{r,  eval = FALSE}
+#Creating an infinity war dataset because not in imdb database of cast_info
 movie_id <- c("3313680", "3313680")
 gender <- c("f", "m")
-people <- c("2", "8")
-ratio <- c("20", "80")
+people <- c("4", "11")
+ratio <- c("27", "73")
 ```
 
-```{r}
-#Infinity data frame 
+```{r, eval = FALSE}
+#Creating infinity war data frame 
 infinity_wars_2 <- data.frame(movie_id, gender, people, ratio)
 ```
 
-```{r}
+```{r, eval = FALSE}
+#Not using because has different axis alignment and we determined through research that the numbers are the same as Avengers
+
 infinity_creation <- ggplot(data = infinity_wars_2, aes(x = movie_id, y = ratio)) + geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) + 
     labs(x = "Infinity War", y = "Ratio of Top Actors", caption = "2018") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
   theme(axis.text.y = element_blank(), 
@@ -225,15 +197,14 @@ infinity_creation <- ggplot(data = infinity_wars_2, aes(x = movie_id, y = ratio)
 ```
 
 ```{r}
-grob_20 <- grobTree(textGrob("20%", x= .78, y= .81,
-  gp=gpar(col="white", fontsize= 15 , fontface="bold")))
-
-grob_10 <- grobTree(textGrob("10%", x= .78, y= .90,
+#Using this feature for annotation of graphic
+grob_27 <- grobTree(textGrob("27%", x= .78, y= .76,
   gp=gpar(col="white", fontsize= 15 , fontface="bold")))
 ```
 
 ```{r}
-ultron_plot_10 <- ggplot(data = age_of_ultron_10, aes(x = movie_id, y = ratio)) +
+#Creating Ultron Top 15 plot
+ultron_plot_15 <- ggplot(data = age_of_ultron_15, aes(x = movie_id, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
  labs(x = "Age of Ultron", y = "Ratio of Top Actors", caption = "2015") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
     theme(legend.title = element_blank(), 
@@ -246,11 +217,12 @@ ultron_plot_10 <- ggplot(data = age_of_ultron_10, aes(x = movie_id, y = ratio)) 
         axis.text = element_text(size = 5, color = "black"),
         axis.text.y = element_blank(),
         plot.caption = element_text(size = 8)) +
-    annotation_custom(grob_10)
+    annotation_custom(grob_27)
 ```
 
 ```{r}
-avengers_plot_10 <- ggplot(data = avengers_10, aes(x = movie_id, y = ratio)) +
+#Creating avengers top 15 plot
+avengers_plot_15 <- ggplot(data = avengers_15, aes(x = movie_id, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
  labs(x = "Avengers", y = "Ratio of Top Actors", caption = "2012") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
     theme(legend.title = element_blank(), 
@@ -260,11 +232,12 @@ avengers_plot_10 <- ggplot(data = avengers_10, aes(x = movie_id, y = ratio)) +
           axis.ticks.x = element_blank(),
           plot.caption = element_text(size = 8)) +
   scale_y_continuous(limits = c(0, 100)) +
-  annotation_custom(grob_20)
+  annotation_custom(grob_27)
 ```
 
 ```{r}
-infinity_10 <- ggplot(data = avengers_10, aes(x = movie_id, y = ratio)) +
+#Using avengers query to create an inifinty data graphic because same female to male ratios
+infinity_15 <- ggplot(data = avengers_15, aes(x = movie_id, y = ratio)) +
   geom_bar(color = "goldenrod3", stat = "identity", size = 1, aes(fill = gender)) +
  labs(x = "Infinity War", y = "Ratio of Top Actors", caption = "2018") + scale_fill_manual(values = c('#e31a1c', 'darkblue'), labels = c("Female Cast", "Male Cast")) + 
     theme(plot.title = element_blank(),
@@ -284,28 +257,38 @@ infinity_10 <- ggplot(data = avengers_10, aes(x = movie_id, y = ratio)) +
         legend.text = element_text(colour="white", size=10, 
                                      face="italic"),
         plot.caption = element_text(size = 8)) +
-    annotation_custom(grob_20)
+    annotation_custom(grob_27)
 ```
 
 ```{r}
-#Creating merged data graphics
-p_10 <- plot_grid(avengers_plot_10, ultron_plot_10, infinity_10, align = "v", nrow = 1, rel_widths = c(1/3.33, 1/3.33, 1/3.33))
+#Creating merged data graphics for top 15
+p_10 <- plot_grid(avengers_plot_15, ultron_plot_15, infinity_15, align = "v", nrow = 1, rel_widths = c(1/3.33, 1/3.33, 1/3.33))
 ```
 
 ```{r}
-#Creating title of merged data graphic
-title_10 <- ggdraw() + draw_label("Top 10 Actor Gender Ratios in Avengers Movies", fontface = 'bold')
+#Creating title of merged data graphic top 15
+title_10 <- ggdraw() + draw_label("Top 15 Actor Gender Ratios in Avengers Movies", fontface = 'bold')
 ```
 
+*Figure 2*
 ```{r}
-#Adding title to merged data graphics
+#Adding title to merged data graphics top 15
 plot_grid(title_10, p_10, ncol = 1, rel_heights=c(0.1, 1))
 ```
 
-##Counter-argument
-##Talk about female lead roles as a whole in the movie industry -- has it gone up, done, what?
-##Maybe look up box office numbers if the avengers movies did better when more female lead roles
- 
+
+However, it should be noted that these this number of “top 15” is arbitrary and as is the order the actor’s names are listed in the credits. For example, there are really only a handful of lead roles in The Avengers, one of which being female, whereas there are 19 lead superheros in Endgame, 7 of which are female. The order of credits does not convey this; therefore, this information should be taken with a grain of salt. 
+
+What tells a more accurate picture than the gender of the top 15 actors is the screen time of the lead characters in relation to gender. When looking at screen time, the disparity in female representation in Avengers movies is also apparent. While there seems to be somewhat of an increase in female lead roles over time with the introduction of more female “lead” characters, the screen time these female superheros are being given are not nearly equivalent to what male superheros are receiving. It should also be noted that the movies in the Avengers series have increase in overall length with The Avengers being 2 hours and 23 minutes and Endgame being 3 hours and 2 minutes.
+
+When looking at the of individual actors in [The Avengers](https://www.imdb.com/list/ls023497269/), Black Widow has 33 minutes, only a few minutes less than Iron Man and Captain America, and sets the stage for lead female cast members in the Avengers series. In [Age of Ultron](https://www.imdb.com/list/ls023488834/) the novel female lead Scarlet Witch had 21 minutes of screentime compared to Captain America’s screen time of 50 minutes. Black Widow had similar screen time in this movie compared to the first Avengers movie. There are no female actors of color in this film and the male superheroes of color in this film, Nick Fury, War Machine, Falcon, and Heimdall, are on screen for at most 3 and half minutes. In the third Avengers series movie [Infinity War](https://geektyrant.com/news/the-screen-time-for-each-character-in-avengers-infinity-war-has-been-revealed), the female’s screen time ranged from at most 19 minutes for Gamora, the second highest screen time behind character Thanos at 29, to Okoye, a female of color who had around 3 minutes of screen time. 
+
+One may think that with the increase in female representation in cinema and with the swarm of female characters who emerged in Infinity War that there would be even more female superheroes in Endgame. While this may be true with the introduction of characters such as Captain Marvel and Valkyrie, the overall screen time of female characters in tells another story. With 19 lead superheroes featured in the Avengers finale, only 7 of them are female, making up 116 minutes in total of screen time, [as reported by the Daily Mail] https://www.dailymail.co.uk/news/article-6958449/The-REAL-battle-Avengers-male-superheroes-Endgame-enjoy-screen-time-women.html). However, the remaining male leads take up 381 minutes of screen time in total. This information has been consolidated into Figure 3 below.
+
+*Figure 3*
+
+[According to the Women in Hollywood Website](https://womenandhollywood.com/resources/statistics/2013-statistics/), in the year 2013 women represented 15% of all protagonists in the top 100 grossing films. This percentage went up to 22% by 2015, and climbed even higher to 31% by 2018. Additionally, the number of female characters of color represented increased from 22% in 2013 to 30% in 2018. The percentage of female directors has only gone up by 2%, and the number of female writers has gone up by 6% between the years of 2013 and 2018. Therefore, while the Avengers is not particularly female inclusive as seen in the genders of total cast members and protagonists, neither is the movie industry as a whole and this is clearly seen in the Avengers series cast.
+
 
 ##Footnotes:
  - No endgame data in imdb
